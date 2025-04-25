@@ -93,13 +93,14 @@ if uploaded_files:
         
         # Create or access vector store with detailed error handling
         try:
+            # The AstraDBVectorStore class doesn't accept a dimension parameter directly
+            # The dimension is determined by the embedding model
             vectorstore = AstraDBVectorStore(
                 collection_name=collection_name,
                 embedding=embeddings,
                 api_endpoint=ASTRA_DB_API_ENDPOINT,
                 token=ASTRA_DB_APPLICATION_TOKEN,
-                namespace=ASTRA_DB_NAMESPACE,
-                dimension=EMBEDDING_DIMENSION  # Explicitly set dimension to 384
+                namespace=ASTRA_DB_NAMESPACE
             )
         except Exception as e:
             st.error(f"Failed to initialize AstraDBVectorStore: {str(e)}")
